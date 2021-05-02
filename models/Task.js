@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const TasksSchema = mongoose.Schema({
   name: {
@@ -8,7 +8,7 @@ const TasksSchema = mongoose.Schema({
   },
   author: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: 'User',
   },
   created: {
     type: Date,
@@ -16,7 +16,7 @@ const TasksSchema = mongoose.Schema({
   },
   projectId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Project",
+    ref: 'Project',
   },
   state: {
     type: Boolean,
@@ -24,4 +24,4 @@ const TasksSchema = mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Task", TasksSchema);
+module.exports = mongoose.model('Task', TasksSchema);

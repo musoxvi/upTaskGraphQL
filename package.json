@@ -6,8 +6,9 @@
   "scripts": {
     "start": "node .",
     "dev": "nodemon .",
-    "lint": "npx eslint src",
-    "lint:fix": "npx eslint src --fix"
+    "lint": "npx eslint",
+    "lint:fix": "npx eslint --fix",
+    "format": "prettier --write"
   },
   "keywords": [],
   "author": "",

@@ -1,12 +1,12 @@
-const { ApolloServer, gql } = require("apollo-server");
-const jwt = require("jsonwebtoken");
+const { ApolloServer } = require('apollo-server');
+const jwt = require('jsonwebtoken');
 
-require("dotenv").config({ path: ".env" });
+require('dotenv').config({ path: '.env' });
 
-const typeDefs = require("./db/schema");
-const resolvers = require("./db/resolvers");
+const typeDefs = require('./db/schema');
+const resolvers = require('./db/resolvers');
 
-const connectDB = require("./config/db");
+const connectDB = require('./config/db');
 
 // connect to database
 connectDB();
@@ -16,7 +16,7 @@ const server = new ApolloServer({
   resolvers,
 
   context: ({ req }) => {
-    const token = req.headers["authorization"] || "";
+    const token = (req.headers && req.headers.authorization) || '';
 
     if (token) {
       try {

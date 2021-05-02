@@ -1,12 +1,12 @@
-const bcryptjs = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+const bcryptjs = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
-require("dotenv").config({ path: ".env" });
+require('dotenv').config({ path: '.env' });
 
 // Models
-const User = require("../models/User");
-const Project = require("../models/Project");
-const Task = require("../models/Task");
+const User = require('../models/User');
+const Project = require('../models/Project');
+const Task = require('../models/Task');
 
 // Crea y forma un JWT
 const createToken = (user, secret, expiresIn) => {
@@ -17,14 +17,14 @@ const createToken = (user, secret, expiresIn) => {
 
 const resolvers = {
   Query: {
-    getProjects: async (_, {}, context) => {
+    getProjects: async (_, __, context) => {
       const projects = await Project.find({ author: context.user.id });
 
       return projects;
     },
     getTasks: async (_, { input }, context) => {
       const tasks = await Task.find({ author: context.user.id })
-        .where("projectId")
+        .where('projectId')
         .equals(input.projectId);
 
       return tasks;
@@ -37,7 +37,7 @@ const resolvers = {
       const userExists = await User.findOne({ email });
 
       if (userExists) {
-        throw new Error("user is already registered");
+        throw new Error('user is already registered');
       }
 
       try {
@@ -48,7 +48,7 @@ const resolvers = {
         // Register new user
         const newUser = new User(input);
         newUser.save();
-        return "user created successfully";
+        return 'user created successfully';
       } catch (error) {
         console.log(error);
       }
@@ -59,22 +59,19 @@ const resolvers = {
       // validate if user exists
       const userExists = await User.findOne({ email });
       if (!userExists) {
-        throw new Error("user does not exist");
+        throw new Error('user does not exist');
       }
 
       // validate if the password is correct
-      const correctPassword = await bcryptjs.compare(
-        password,
-        userExists.password
-      );
+      const correctPassword = await bcryptjs.compare(password, userExists.password);
 
       if (!correctPassword) {
-        throw new Error("Incorrect password");
+        throw new Error('Incorrect password');
       }
 
       // access to the application
       return {
-        token: createToken(userExists, process.env.SECRET, "2hr"),
+        token: createToken(userExists, process.env.SECRET, '2hr'),
       };
     },
     createProject: async (_, { input }, context) => {
@@ -93,7 +90,7 @@ const resolvers = {
       // validate if project exists
       let project = await Project.findById(id);
       if (!project) {
-        throw new Error("project not found");
+        throw new Error('project not found');
       }
 
       // check if the person who edits is the author
@@ -112,7 +109,7 @@ const resolvers = {
       // validate if project exists
       let project = await Project.findById(id);
       if (!project) {
-        throw new Error("project not found");
+        throw new Error('project not found');
       }
 
       // check if the person who edits is the author
@@ -123,7 +120,7 @@ const resolvers = {
       // Delete project
       project = await Project.findByIdAndDelete({ _id: id });
 
-      return "project deleted";
+      return 'project deleted';
     },
     createTask: async (_, { input }, context) => {
       try {
@@ -141,7 +138,7 @@ const resolvers = {
       let task = await Task.findById(id);
 
       if (!task) {
-        throw new Error("task not found");
+        throw new Error('task not found');
       }
 
       // check if the person who edits is the author
@@ -164,7 +161,7 @@ const resolvers = {
       let task = await Task.findById(id);
 
       if (!task) {
-        throw new Error("task not found");
+        throw new Error('task not found');
       }
 
       // check if the person who edits is the author
@@ -175,7 +172,7 @@ const resolvers = {
       // Delete task
       task = await Task.findByIdAndDelete({ _id: id });
 
-      return "task deleted";
+      return 'task deleted';
     },
   },
 };
